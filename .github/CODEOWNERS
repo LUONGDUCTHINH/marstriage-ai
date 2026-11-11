@@ -1,0 +1,40 @@
+# CODEOWNERS TEMPLATE — all entries below are intentionally commented out.
+# Confirm GitHub handles and write access before replacing placeholders and
+# uncommenting rules. This file currently assigns no automatic reviewers.
+# GitHub reads CODEOWNERS from the PR's base branch, so these rules only become
+# effective after an approved merge and configuration with real handles.
+# Put the default owner first; GitHub uses the last matching rule.
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Thịnh — Project Lead
+# *                         @THINH_HANDLE
+# /README.md                @THINH_HANDLE
+# /CONTRIBUTING.md           @THINH_HANDLE
+# /docs/architecture/        @THINH_HANDLE
+# /docs/decisions/           @THINH_HANDLE
+# /docs/team.md             @THINH_HANDLE
+# /docs/roadmap.md           @THINH_HANDLE
+#
+# Khoa — DevOps & Frontend
+# /.github/                 @KHOA_HANDLE
+# /pyproject.toml           @KHOA_HANDLE
+# /frontend/                @KHOA_HANDLE
+# /docs/operations/         @KHOA_HANDLE @LONG_HANDLE
+#
+# Trí — Data & Evaluation
+# /src/marstriage_ai/data/        @TRI_HANDLE
+# /src/marstriage_ai/evaluation/  @TRI_HANDLE
+# /docs/data/                    @TRI_HANDLE
+# /docs/evaluation/              @TRI_HANDLE
+#
+# Long — AWS & Backend
+# /src/marstriage_ai/backend/  @LONG_HANDLE
+# /infra/aws/                 @LONG_HANDLE @KHOA_HANDLE
+#
+# Hùng — Computer Vision
+# /src/marstriage_ai/vision/   @HUNG_HANDLE
+# /docs/models/              @HUNG_HANDLE
+#
+# Shared contracts and foundation tests
+# /src/marstriage_ai/review/  @KHOA_HANDLE @LONG_HANDLE
+# /tests/                    @KHOA_HANDLE
