@@ -24,8 +24,10 @@ Versioned terrain images and labels
 - **Coordination — Thịnh:** scope, interfaces, and architecture decisions.
 
 Python namespaces reserve these boundaries without selecting a model framework,
-web framework, or AWS runtime. Unit-test imports must remain independent of cloud
-configuration and model downloads.
+web framework, or AWS runtime. The data namespace implements an optional loader
+for the pinned AI4MARS mirror; preprocessing and cross-component contracts remain
+planned. Unit-test imports stay independent of cloud configuration, dataset
+downloads, and optional data dependencies.
 
 ## Decisions still needed
 
