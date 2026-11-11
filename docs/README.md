@@ -1,15 +1,15 @@
 # Documentation
 
-All system designs here are proposals or implementation checklists unless backed
-by a linked decision and execution evidence. This foundation includes no dataset,
-trained model, application, or deployed AWS resource.
+System designs here are proposals or implementation checklists unless backed by
+execution evidence. The AI4MARS loader is implemented; downloaded data is local
+and ignored by Git. There is no trained model, application, or deployed AWS resource.
 
 | Document | Purpose | Owner |
 | --- | --- | --- |
 | [Team](team.md) | Roles, ownership and review | Thịnh |
 | [Roadmap](roadmap.md) | Planned implementation milestones | Thịnh |
 | [Architecture](architecture/README.md) | Boundaries and open design questions | Thịnh with all owners |
-| [Data](data/README.md) | Provenance, labels and split policy | Trí |
+| [Data](data/README.md) | AI4MARS loading, provenance, labels and split policy | Trí |
 | [Models](models/README.md) | Segmentation and uncertainty design | Hùng |
 | [Evaluation](evaluation/README.md) | Metrics and experiment evidence | Trí with Hùng |
 | [Operations](operations/README.md) | CI and future deployment planning | Khoa with Long |

@@ -3,10 +3,11 @@
 A project for Martian terrain segmentation, uncertainty estimation, and
 human-in-the-loop review, with a planned AWS deployment.
 
-**Status: project foundation.** This repository provides Python packaging,
-contributor guidance, test scaffolding, CI configuration, and infrastructure
-placeholders. It does not yet implement a model, dataset pipeline, API, review UI,
-or AWS deployment. No model metrics or deployment outcomes are reported.
+**Status: project foundation with an AI4MARS loader.** This repository provides
+Python packaging, an optional Hugging Face dataset loader, contributor guidance,
+unit tests, CI configuration, and infrastructure placeholders. Model training,
+preprocessing, an API, review UI, and AWS deployment remain planned. No model
+metrics or deployment outcomes are reported.
 
 ## Quick start
 
@@ -34,8 +35,35 @@ python -m build
 ```
 
 These commands are instructions, not a claim that checks have passed. Actual
-results belong in the pull request and its GitHub Actions runs. The initial unit
-tests check package installation and module imports; they do not evaluate a model.
+results belong in the pull request and its GitHub Actions runs. Unit tests check
+packaging and loader behavior offline; they do not evaluate a model.
+
+## Load AI4MARS
+
+Install the optional data dependencies and cache the source dataset locally:
+
+```bash
+python -m pip install -e ".[data]"
+python -m marstriage_ai.data.ai4mars
+```
+
+The download is approximately 6.47 GB; the downloaded files and prepared Arrow
+cache together need roughly 13 GB. The CLI stores its cache and provenance
+manifest under `data/cache/ai4mars/`, which Git ignores. An existing `HF_HOME`
+setting takes precedence for the Hugging Face Hub metadata/download cache.
+
+Use the same pinned source from Python:
+
+```python
+from marstriage_ai.data.ai4mars import load_ai4mars
+
+ds = load_ai4mars()  # train, test_min1, test_min2, test_min3
+sample_stream = load_ai4mars("train", streaming=True)  # read on demand
+```
+
+The loader wraps `datasets.load_dataset("hassanjbara/AI4MARS", ...)` with a fixed
+source revision and public access without a token. See [data documentation](docs/data/README.md)
+for provenance, columns, missing labels, source splits, and smaller loading options.
 
 ## Repository layout
 
@@ -46,7 +74,7 @@ frontend/                  Review UI planning placeholder
 infra/aws/                 AWS / Terraform planning placeholders
 src/marstriage_ai/
     backend/               Backend and AWS integration namespace
-    data/                  Dataset and preprocessing namespace
+    data/                  AI4MARS loader; preprocessing remains planned
     evaluation/            Evaluation and uncertainty analysis namespace
     review/                Human review contract namespace
     vision/                Segmentation and uncertainty model namespace
@@ -55,7 +83,7 @@ tests/
     integration/           Future integration-test guidance
 ```
 
-Namespaces reserve code locations; their functionality is not implemented yet.
+The data namespace provides the loader; other namespaces reserve planned code.
 
 ## Team responsibilities
 

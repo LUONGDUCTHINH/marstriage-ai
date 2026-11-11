@@ -5,8 +5,9 @@ or delivery schedule. Implementation work below remains open.
 
 - [ ] Confirm GitHub handles, collaborator access, CODEOWNERS, required reviews,
   branch protection, and project license — Thịnh with Khoa.
-- [ ] Select and document a dataset, label schema, and reproducible split policy
-  — Trí with Hùng.
+- [x] Add a pinned public AI4MARS loader and source documentation — Trí's data area.
+- [ ] Validate AI4MARS provenance, annotation coverage, label handling, and a
+  reproducible training/validation split policy — Trí with Hùng.
 - [ ] Define baseline segmentation and uncertainty interfaces, then implement and
   test a baseline — Hùng.
 - [ ] Implement reproducible evaluation and report only observed metrics with

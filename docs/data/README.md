@@ -1,17 +1,104 @@
-# Data plan
+# AI4MARS data
 
-Owner: Trí — Data & Evaluation. Status: no dataset is included or validated.
+Owner: Trí — Data & Evaluation, with Hùng for model/label contracts.
 
-Before ingestion is implemented, document:
+The project provides an optional loader for the public
+[`hassanjbara/AI4MARS` mirror](https://huggingface.co/datasets/hassanjbara/AI4MARS).
+Raw data stays outside Git. The loader does not perform preprocessing, create new
+splits, train a model, or establish dataset suitability for an experiment.
 
-- Source URL, version, collection context, usage rights, and attribution.
-- Image and annotation formats, coordinate conventions, label taxonomy,
-  ignore labels, quality checks, and known gaps.
-- Immutable dataset/split manifests and checksums. Split by an appropriate
-  grouping unit before augmentation to avoid train/evaluation leakage.
-- Reproducible preprocessing configuration and links to input revisions.
-- Storage, retention, access, and any download instructions.
+## Source and provenance
 
-Keep raw and processed data outside Git. Use tiny synthetic fixtures for unit
-tests; label them as synthetic and do not present them as Martian observations.
-Agree on the label and split contract with Hùng before training or evaluation.
+- Repository: `hassanjbara/AI4MARS` on Hugging Face.
+- Fixed revision: `93dbb79de6cd234799750b6129fbfb3b197582fa`.
+- Source card: [README at the pinned revision](https://huggingface.co/datasets/hassanjbara/AI4MARS/blob/93dbb79de6cd234799750b6129fbfb3b197582fa/README.md).
+- The uploader describes this as Curiosity/MSL data mirrored from a Kaggle
+  collection and declares `cc0-1.0` in the card. This records the uploader's
+  metadata; the team still needs to confirm upstream provenance and usage terms
+  before redistribution or publication.
+- `prepare.py` in the source repository is not executed by this integration;
+  the loader reads the published Parquet files through Hugging Face Datasets.
+
+The pinned card reports these source split sizes. A successful local download
+records the actual loaded sizes and features in its ignored provenance manifest.
+
+| Source split | Rows reported by the pinned card |
+| --- | ---: |
+| `train` | 18,130 |
+| `test_min1` | 322 |
+| `test_min2` | 322 |
+| `test_min3` | 322 |
+
+Keep the three test variants separate. They are variants of expert annotations;
+do not assume they are disjoint samples or use them as training/validation data.
+No validation split or leakage-safe new split policy is implemented.
+
+## Loading
+
+From the repository root, after activating `.venv`:
+
+```bash
+python -m pip install -e ".[data]"
+python -m marstriage_ai.data.ai4mars
+```
+
+This loads all splits and writes `data/cache/ai4mars/manifest-all.json` only after
+the load succeeds. The manifest contains the source ID, revision, execution time,
+and observed split sizes/features. It contains no model metrics. The original
+Parquet downloads total approximately 6.47 GB; the Arrow cache adds about 6.52 GB.
+Additional temporary space may be needed while preparing the cache.
+
+Download only one source split, for example:
+
+```bash
+python -m marstriage_ai.data.ai4mars --split test_min1
+```
+
+This writes `manifest-test_min1.json`, not a claim that all splits were downloaded.
+Use `--cache-dir PATH` to relocate the Datasets cache and manifest. Unless
+`HF_HOME` is already set, the CLI also places the Hub cache under that directory.
+Library callers may set `HF_HOME` before importing Hugging Face libraries to
+relocate their Hub metadata/download cache.
+
+```python
+from marstriage_ai.data.ai4mars import load_ai4mars
+
+ds = load_ai4mars()
+train = ds["train"]
+
+# For a quick preview without downloading the entire dataset:
+stream = load_ai4mars("train", streaming=True)
+example = next(iter(stream))
+```
+
+After a complete download, cached loading can be requested without Hub access:
+
+```bash
+HF_DATASETS_OFFLINE=1 HF_HUB_OFFLINE=1 python -m marstriage_ai.data.ai4mars
+```
+
+This requires the same source revision, cache location, and Hugging Face library
+configuration as the successful download. It is not a substitute for downloading
+the files first.
+
+## Columns and labels
+
+The source exposes `image`, `label_mask`, `rover_mask`, `range_mask`, `has_masks`,
+and `has_labels`. Image fields use Hugging Face's image feature and Pillow decoding.
+Some rows have no segmentation label. Check `has_labels` and `label_mask` before
+using a row for supervised training; similarly check masks before using them.
+The loader intentionally preserves these rows and flags without filtering.
+
+The pinned source card describes soil, bedrock, sand, and big rock as mask values
+0, 1, 2, and 3, with 255 representing unlabeled pixels. It describes masks as RGB
+triples with equal channel values. These conventions still need pixel-level and
+shape validation before implementing transforms, losses, or evaluation.
+
+## Remaining data work
+
+Trí and Hùng should validate annotation coverage and image/mask alignment, agree
+on ignore-label handling, confirm source identities and split overlap, and define
+reproducible preprocessing and any training/validation partition. Record dataset,
+code, and configuration revisions for every future experiment. Use small,
+explicitly synthetic fixtures for offline unit tests. Do not commit downloaded
+data, cache files, weights, or generated model results.

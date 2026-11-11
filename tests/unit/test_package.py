@@ -19,6 +19,7 @@ def test_distribution_metadata_is_available() -> None:
         "marstriage_ai",
         "marstriage_ai.backend",
         "marstriage_ai.data",
+        "marstriage_ai.data.ai4mars",
         "marstriage_ai.evaluation",
         "marstriage_ai.review",
         "marstriage_ai.vision",

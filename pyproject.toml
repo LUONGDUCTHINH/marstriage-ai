@@ -19,6 +19,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
+data = ["datasets[vision]>=5.2,<6"]
 dev = [
     "build>=1.2,<2",
     "pytest>=8.4,<10",
