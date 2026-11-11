@@ -218,3 +218,37 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-local secrets and AWS configuration
+.env.*
+!.env.example
+.aws/
+*.pem
+*.key
+
+# Terraform local state, plans, and environment-specific values
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Datasets, models, and generated experiment artifacts
+/data/
+/artifacts/
+/models/
+/runs/
+/reports/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Local OS metadata
+.DS_Store
