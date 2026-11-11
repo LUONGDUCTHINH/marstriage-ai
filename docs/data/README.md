@@ -94,6 +94,21 @@ The pinned source card describes soil, bedrock, sand, and big rock as mask value
 triples with equal channel values. These conventions still need pixel-level and
 shape validation before implementing transforms, losses, or evaluation.
 
+## Observed integration check
+
+On 11 November 2026, a complete download of the pinned revision and an offline
+cache reload returned the four split sizes listed above. Reading the source
+flags found 16,064 train rows with `has_labels=True` and 2,066 without labels;
+18,096 train rows had `has_masks=True`. All 322 rows in each test variant had both
+flags set. These are source flag counts, not a pixel-level quality assessment.
+
+Using Datasets 5.2.0 and Pillow 13.0.0, one labeled example from each split decoded
+all four image fields at 1024×1024 in grayscale mode `L`. Thus, preserve the actual
+decoded mode and verify it before assuming the source card's RGB representation.
+This was a sample decoding check, not exhaustive image/mask validation or model
+evaluation. The local `manifest-all.json` and `inspection.json` were kept in the
+ignored cache; no dataset files were committed.
+
 ## Remaining data work
 
 Trí and Hùng should validate annotation coverage and image/mask alignment, agree
