@@ -3,10 +3,12 @@
 Install the package and development tools with `python -m pip install -e ".[dev]"`.
 Run `python -m pytest tests/unit` from the repository root.
 
-`unit/` starts with package smoke tests. They verify that the installed
-distribution is discoverable and that the intended namespaces can be imported
-without datasets, GPUs, credentials, or network services. They make no claims
-about model quality or deployed infrastructure.
+`unit/` contains package smoke tests and AI4MARS loader tests. They verify that
+the installed distribution is discoverable and that namespaces can be imported
+without the optional data libraries, GPUs, credentials, or network services.
+Loader tests use synthetic dependency responses to check source pinning, split
+handling, streaming, missing-dependency guidance, and manifest output. They do not
+download real data or establish model quality or deployed infrastructure.
 
 As features are implemented, add small deterministic tests for their behavior and
 error cases. Keep synthetic fixtures small and clearly identified as synthetic.

@@ -17,7 +17,8 @@ training, dataset downloads, publishing, or deployment steps.
 
 Workflow configuration is not proof that a run passed. Inspect the PR checks and
 linked Actions run for actual status. Do not describe an unexecuted matrix as
-verified. Initial tests cover packaging only, not backend or model behavior.
+verified. Tests cover packaging and offline loader behavior, not backend or model
+behavior. The optional data extra and real dataset downloads are not part of CI.
 
 The workflow uses the installed development dependency ranges from
 `pyproject.toml`; they are not a fully locked environment. Record tool versions
